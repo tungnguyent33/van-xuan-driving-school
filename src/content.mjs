@@ -12,6 +12,9 @@ export const site = {
   hotlineDisplay,
   hotlineHref: "tel:0978639199",
   zaloHref: "https://zalo.me/0978639199",
+  // Nhóm Zalo học viên (chủ văn phòng cung cấp 2026-10-13).
+  zaloGroupHref: "https://zalo.me/g/ftqdhz976",
+  zaloGroupLabel: "Tham gia nhóm Zalo học viên",
 
   contactAddress: "Nhà văn hóa thôn 18, thôn 18, xã Vạn Xuân, tỉnh Phú Thọ",
   contactAddressShort: "Nhà văn hóa thôn 18, xã Vạn Xuân, tỉnh Phú Thọ",
@@ -52,25 +55,26 @@ export const site = {
   },
 
   // Ảnh/video thật do chủ văn phòng cung cấp (2026-10-13).
+  // Mọi ô dùng tỷ lệ 3:4. Bấm ảnh để xem lớn (lightbox).
+  // Chú thích video viết theo khung hình đầu của video — cần chủ văn phòng xác nhận.
   gallery: {
-    heading: "Hình ảnh lớp học và sân tập",
+    heading: "Hình ảnh thực tế tại Vạn Xuân",
     groups: [
       {
         title: "Lớp học và làm hồ sơ",
         items: [
           { type: "image", src: "images/lop-hoc-1.jpg", width: 720, height: 960, alt: "Hướng dẫn viên phát tài liệu cho học viên trong lớp học", caption: "Lớp học lý thuyết" },
-          { type: "image", src: "images/lop-hoc-2.jpg", width: 720, height: 960, alt: "Hướng dẫn viên giảng bài cho học viên", caption: "Hướng dẫn ôn tập" },
-          { type: "image", src: "images/lop-hoc-3.jpg", width: 720, height: 960, alt: "Học viên làm bài trong lớp", caption: "Học viên làm bài" },
-          { type: "image", src: "images/lop-hoc-4.jpg", width: 720, height: 960, alt: "Phòng học có bảng hệ thống biển báo giao thông, học viên khám sức khỏe", caption: "Khám sức khỏe khi làm hồ sơ" },
+          { type: "image", src: "images/lop-hoc-2.jpg", width: 720, height: 960, alt: "Hướng dẫn viên giảng bài cho học viên ngồi tại bàn", caption: "Hướng dẫn ôn tập" },
+          { type: "image", src: "images/lop-hoc-4.jpg", width: 720, height: 960, alt: "Phòng có bảng hệ thống biển báo giao thông, học viên khám sức khỏe", caption: "Khám sức khỏe khi làm hồ sơ" },
           { type: "image", src: "images/lop-hoc-5.jpg", width: 720, height: 960, alt: "Nhân viên hỗ trợ học viên nhập thông tin hồ sơ trên máy tính", caption: "Hỗ trợ làm hồ sơ" },
         ],
       },
       {
         title: "Sân tập",
         items: [
-          { type: "image", src: "images/san-tap-bien-hieu.jpg", width: 1080, height: 810, alt: "Biển hiệu Đào tạo lái xe Vạn Xuân hạng A, A1 tại thôn 18, xã Vạn Xuân", caption: "Biển hiệu tại thôn 18, xã Vạn Xuân" },
-          { type: "video", src: "images/san-tap-video-1.mp4", caption: "Video sân tập (1)" },
-          { type: "video", src: "images/san-tap-video-2.mp4", caption: "Video sân tập (2)" },
+          { type: "image", src: "images/san-tap-bien-hieu-doc.jpg", width: 720, height: 960, alt: "Biển hiệu Đào tạo lái xe Vạn Xuân hạng A, A1 trên dãy nhà tại thôn 18, xã Vạn Xuân", caption: "Biển hiệu tại thôn 18, xã Vạn Xuân" },
+          { type: "video", src: "images/san-tap-video-1.mp4", poster: "images/san-tap-video-1-poster.jpg", caption: "Tập lái xe tay ga theo vạch kẻ trên sân" },
+          { type: "video", src: "images/san-tap-video-2.mp4", poster: "images/san-tap-video-2-poster.jpg", caption: "Tập lái xe số qua vạch vòng tròn trên sân" },
         ],
       },
     ],
@@ -82,24 +86,25 @@ export const site = {
     items: [
       { type: "image", src: "images/hoat-dong-1.jpg", width: 1280, height: 960, alt: "Đông học viên làm thủ tục hồ sơ tại hội trường", caption: "Học viên làm thủ tục hồ sơ" },
       { type: "image", src: "images/hoat-dong-2.jpg", width: 960, height: 1280, alt: "Cán bộ hướng dẫn học viên ký hồ sơ", caption: "Hướng dẫn ký hồ sơ" },
-      { type: "video", src: "images/hoat-dong-video.mp4", caption: "Video hoạt động" },
+      { type: "video", src: "images/hoat-dong-video.mp4", poster: "images/hoat-dong-video-poster.jpg", caption: "Lễ khai mạc tại hội trường" },
     ],
   },
 
+  // Mỗi mục: băn khoăn (title) + hướng giải quyết (solution). Không thêm cam kết mới.
   problems: {
-    heading: "Những điều thường khiến bạn băn khoăn",
+    heading: "Bạn chưa biết bắt đầu từ đâu?",
     items: [
       {
-        title: "Chưa có bằng lái xe máy",
-        text: "Muốn học và thi giấy phép lái xe máy nhưng chưa biết bắt đầu từ đâu.",
+        title: "Chưa biết nên học hạng A1 hay hạng A",
+        solution: "Cho văn phòng biết loại xe bạn định sử dụng để được tư vấn chọn hạng phù hợp trước khi đăng ký.",
       },
       {
-        title: "Chưa rõ thủ tục, hồ sơ",
-        text: "Chưa biết điều kiện dự thi và cần chuẩn bị những giấy tờ gì.",
+        title: "Chưa rõ hồ sơ cần chuẩn bị",
+        solution: "Liên hệ để được hướng dẫn điều kiện dự thi và giấy tờ cần chuẩn bị theo quy định hiện hành.",
       },
       {
         title: "Lo chi phí không rõ ràng",
-        text: "Muốn biết học phí gồm những khoản nào trước khi quyết định đăng ký.",
+        solution: "Học phí từ 1.200.000đ. Hỏi rõ khóa/gói áp dụng và các khoản bao gồm, chưa bao gồm trước khi đăng ký.",
       },
     ],
   },
@@ -186,8 +191,10 @@ export const site = {
     placeholderText: "Đánh giá thật từ học viên sẽ được cập nhật tại đây.",
   },
 
+  // Accordion: câu đầu (học phí) mở sẵn.
   faq: {
     heading: "Thông tin thường được hỏi",
+    ctaLabel: "Gọi tư vấn học phí và lịch học",
     items: [
       {
         q: "Học phí 1.200.000đ đã bao gồm những gì?",

@@ -19,6 +19,7 @@ khách liên hệ hotline/Zalo để được tư vấn học phí và lịch h�
 ## Thông tin liên hệ bắt buộc
 - Hotline: 0978 639 199
 - Zalo: 0978 639 199
+- Nhóm Zalo học viên: https://zalo.me/g/ftqdhz976 (khối liên hệ + footer; tách riêng với nút “Nhắn Zalo”)
 - Địa chỉ: Nhà văn hóa thôn 18, Thôn 18, xã Vạn Xuân, Phú Thọ
 - Khu vực phục vụ chính: Vạn Xuân và các khu vực lân cận tại Phú Thọ
 - Google Maps: https://maps.app.goo.gl/WUqzWExNqY2sK7aD6 (chủ văn phòng cung cấp 2026-10-13).
@@ -178,7 +179,14 @@ nội dung, hình ảnh, logo, số liệu hay lời cam kết của các trang 
   bản cắt riêng cho điện thoại `hero-mobile.jpg`.
 - Không đặt file trực tiếp vào `dist/` (thư mục build). Thêm ảnh mới: bỏ ảnh gốc vào
   `assets-goc/`, tạo bản nén vào `public/images/`, khai báo trong `src/content.mjs`.
-- Video (quay dọc 480×854) không tự phát, `preload="metadata"`.
+- Video (quay dọc 480×854) không tự phát, `preload="none"`, có ảnh bìa `*-poster.jpg`
+  (khung hình đầu của video). Chú thích video viết theo khung hình đầu — cần chủ văn phòng xác nhận.
+- Mục “Hình ảnh thực tế tại Vạn Xuân”: mọi ô tỷ lệ 3:4, bấm ảnh để xem lớn (`<dialog>`,
+  dùng được chuột/bàn phím, Esc để đóng). Đã bỏ `lop-hoc-3` (gần giống `lop-hoc-2`);
+  ảnh biển hiệu dùng bản cắt dọc `san-tap-bien-hieu-doc.jpg`.
+- FAQ dạng accordion (aria-expanded/aria-controls), câu học phí mở sẵn; không có JS thì
+  mọi câu trả lời đều hiện. Sau FAQ có nút “Gọi tư vấn học phí và lịch học”.
+- Màu chữ mô tả/chú thích `--text-2: #3f4856`; `npm test` kiểm tra tương phản ≥ 4.5:1.
 - Đã có ảnh thật nên được dùng cụm “sân tập” (chủ văn phòng gửi ảnh/video thư mục “Sân tập”).
   Vẫn không gọi là “trung tâm sát hạch”. Ảnh có người: chủ văn phòng chịu trách nhiệm xin phép.
 - Đánh giá Google Maps: giữ nguyên lời nhận xét (kể cả lỗi chính tả), chỉ chỉnh khoảng trắng/viết hoa.

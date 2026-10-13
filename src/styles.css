@@ -1239,15 +1239,6 @@ h3 {
   color: var(--muted);
 }
 
-/* Ảnh ngang chiếm 2 cột */
-.gallery li:has(img[width="1080"]) {
-  grid-column: span 2;
-}
-
-.gallery li:has(img[width="1080"]) img {
-  aspect-ratio: 4 / 3;
-}
-
 .media video {
   /* Video quay dọc 9:16: hiện trọn khung hình, không cắt */
   object-fit: contain;
@@ -1394,9 +1385,6 @@ h3 {
     grid-template-columns: repeat(5, 1fr);
   }
 
-  .gallery li:has(img[width="1080"]) {
-    grid-column: span 2;
-  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -1475,4 +1463,225 @@ h3 {
 .btn-map:hover {
   border-color: var(--sign);
   background: var(--sign-soft);
+}
+
+/* ==========================================================
+   3 section: Băn khoăn, Hình ảnh thực tế, FAQ (cập nhật 2026-10-13)
+   Dùng chung container .wrap, khoảng cách .block và hệ chữ h2/h3.
+   ========================================================== */
+:root {
+  /* Chữ mô tả/chú thích: #3f4856 trên trắng ≈ 9:1, trên --tint ≈ 8.4:1 */
+  --text-2: #3f4856;
+}
+
+/* A. Băn khoăn + hướng giải quyết */
+.concerns {
+  display: grid;
+  gap: 0;
+}
+
+.concern {
+  padding: 1rem 0;
+  border-top: 1px solid var(--rule);
+}
+
+.concern:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.solution {
+  margin-top: 0.5rem;
+  padding-left: 0.875rem;
+  border-left: 3px solid var(--sign);
+  color: var(--text-2);
+}
+
+/* B. Hình ảnh thực tế: mọi ô 3:4, bấm để xem lớn */
+.media figcaption {
+  font-size: 1rem;
+  color: var(--text-2);
+}
+
+.zoom {
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius);
+  cursor: zoom-in;
+}
+
+.zoom:focus-visible {
+  outline-offset: 2px;
+}
+
+.lightbox {
+  width: min(100vw - 2rem, 60rem);
+  max-height: calc(100vh - 2rem);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: #0b1f3f;
+  color: #ffffff;
+}
+
+.lightbox::backdrop {
+  background: rgba(6, 14, 28, 0.85);
+}
+
+.lightbox figure {
+  margin: 0;
+}
+
+.lightbox img {
+  display: block;
+  width: 100%;
+  max-height: calc(100vh - 7rem);
+  object-fit: contain;
+  background: #000000;
+}
+
+.lightbox figcaption {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 1;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* C. FAQ accordion */
+.faq {
+  max-width: 48rem;
+}
+
+.faq-item {
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.faq-item:first-child {
+  padding-top: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.faq-item:last-child {
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0;
+}
+
+.faq-q {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.faq-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  min-height: 52px;
+  padding: 0.875rem 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.faq-toggle:hover span {
+  color: var(--sign);
+}
+
+.faq-toggle:focus-visible {
+  outline-offset: 2px;
+}
+
+.faq-chevron {
+  flex: none;
+  color: var(--sign);
+}
+
+.faq-toggle[aria-expanded="true"] .faq-chevron {
+  transform: rotate(180deg);
+}
+
+.faq-a p {
+  padding: 0 2.25rem 1rem 0;
+  color: var(--text-2);
+}
+
+.section-cta {
+  margin-top: 1.5rem;
+}
+
+.section-cta .btn {
+  width: 100%;
+}
+
+/* Nhóm Zalo học viên */
+.btn-group {
+  margin-top: 0.625rem;
+}
+
+.btn-group .icon {
+  color: #0068ff;
+}
+
+.contact-direct .btn-group {
+  display: flex;
+}
+
+@media (min-width: 48em) {
+  .concerns {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .concern,
+  .concern:first-child {
+    padding: 1rem 0 0;
+    border-top: 3px solid var(--sign);
+  }
+
+  .section-cta .btn {
+    width: auto;
+  }
+
+  .contact-direct .btn-group {
+    display: inline-flex;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .faq-chevron {
+    transition: transform var(--dur-micro) var(--ease-out);
+  }
+
+  .zoom img {
+    transition: transform 300ms var(--ease-out);
+  }
+
+  .zoom:hover img {
+    transform: scale(1.03);
+  }
+
+  .lightbox[open] {
+    animation: fade var(--dur-micro) var(--ease-out);
+  }
 }

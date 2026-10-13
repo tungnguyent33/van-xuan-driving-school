@@ -22,6 +22,35 @@ const mapIcon = `<svg class="icon" viewBox="0 0 24 24" width="18" height="18" ar
 const mapsLink = (site, label, className) =>
   `<a class="${className}" href="${esc(site.mapsHref)}" target="_blank" rel="noopener">${label}<span class="visually-hidden"> (mở Google Maps trong cửa sổ mới)</span></a>`;
 
+const zaloGroupLink = (site, label, className) =>
+  `<a class="${className}" href="${esc(site.zaloGroupHref)}" target="_blank" rel="noopener">${label}<span class="visually-hidden"> (mở Zalo trong cửa sổ mới)</span></a>`;
+
+// A. Băn khoăn + hướng giải quyết
+const problemsBody = (p) => `<ul class="concerns">
+${p.items
+  .map(
+    (it) => `        <li class="concern">
+          <h3>${esc(it.title)}</h3>
+          <p class="solution">${esc(it.solution)}</p>
+        </li>`
+  )
+  .join("\n")}
+      </ul>`;
+
+// C. FAQ dạng accordion. Không có JS: mọi câu trả lời đều hiện (aria-expanded="true").
+const chevron = `<svg class="faq-chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 15.5 5.5 9l1.4-1.4 5.1 5.1 5.1-5.1L18.5 9z"/></svg>`;
+const faqBody = (site, faq) => `<div class="faq" data-accordion>
+${faq.items
+  .map(
+    (it, i) => `        <div class="faq-item">
+          <h3 class="faq-q"><button type="button" class="faq-toggle" id="faq-q-${i + 1}" aria-expanded="true" aria-controls="faq-a-${i + 1}"><span>${esc(it.q)}</span>${chevron}</button></h3>
+          <div class="faq-a" id="faq-a-${i + 1}" role="region" aria-labelledby="faq-q-${i + 1}"><p>${esc(it.a)}</p></div>
+        </div>`
+  )
+  .join("\n")}
+      </div>
+      <div class="section-cta">${callLink(site, `${phoneIcon}<span>${esc(faq.ctaLabel)}</span>`, "btn btn-primary")}</div>`;
+
 const ctaPair = (site) => `<div class="cta-pair">
         ${callLink(site, `${phoneIcon}<span>${esc(site.ctaLabel)}</span>`, "btn btn-primary")}
         ${zaloLink(site, `${chatIcon}<span>${esc(site.zaloLabel)}</span>`, "btn btn-secondary")}
@@ -53,11 +82,13 @@ const stars = (n) =>
 const media = (m, className = "media") =>
   m.type === "video"
     ? `<figure class="${className} media-video">
-            <video controls playsinline preload="metadata" src="${esc(m.src)}#t=0.1"></video>
+            <video controls playsinline preload="none" poster="${esc(m.poster)}" src="${esc(m.src)}"></video>
             <figcaption>${esc(m.caption)}</figcaption>
           </figure>`
     : `<figure class="${className}">
-            <img src="${esc(m.src)}" alt="${esc(m.alt)}" width="${m.width}" height="${m.height}" loading="lazy" decoding="async">
+            <a class="zoom" href="${esc(m.src)}" aria-label="Xem ảnh lớn: ${esc(m.caption)}">
+              <img src="${esc(m.src)}" alt="${esc(m.alt)}" width="${m.width}" height="${m.height}" loading="lazy" decoding="async">
+            </a>
             <figcaption>${esc(m.caption)}</figcaption>
           </figure>`;
 
@@ -202,6 +233,51 @@ const formScript = `(function () {
   });
 })();
 
+// FAQ accordion: câu đầu mở sẵn, các câu khác đóng.
+(function () {
+  document.querySelectorAll("[data-accordion]").forEach(function (acc) {
+    acc.querySelectorAll(".faq-toggle").forEach(function (btn, i) {
+      var panel = document.getElementById(btn.getAttribute("aria-controls"));
+      function set(open) {
+        btn.setAttribute("aria-expanded", String(open));
+        panel.hidden = !open;
+      }
+      set(i === 0);
+      btn.addEventListener("click", function () {
+        set(btn.getAttribute("aria-expanded") !== "true");
+      });
+    });
+  });
+})();
+
+// Xem ảnh lớn: link .zoom vẫn mở ảnh nếu trình duyệt không hỗ trợ <dialog>.
+(function () {
+  var box = document.querySelector(".lightbox");
+  if (!box || typeof box.showModal !== "function") return;
+  var img = box.querySelector("img");
+  var cap = box.querySelector("figcaption");
+  var opener = null;
+  document.addEventListener("click", function (event) {
+    var link = event.target.closest && event.target.closest("a.zoom");
+    if (!link) return;
+    event.preventDefault();
+    var thumb = link.querySelector("img");
+    var fig = link.closest("figure");
+    img.src = link.href;
+    img.alt = thumb ? thumb.alt : "";
+    cap.textContent = fig && fig.querySelector("figcaption") ? fig.querySelector("figcaption").textContent : "";
+    opener = link;
+    box.showModal();
+  });
+  box.addEventListener("click", function (event) {
+    if (event.target === box) box.close();
+  });
+  box.addEventListener("close", function () {
+    img.removeAttribute("src");
+    if (opener) opener.focus();
+  });
+})();
+
 // Hiện dần các phần khi cuộn tới, và chỉ hiện thanh Gọi/Zalo trên mobile
 // khi nút trong hero không nằm trong màn hình. Không có IntersectionObserver thì hiện hết.
 (function () {
@@ -309,7 +385,7 @@ ${site.licenseClasses.map((c) => `          <li class="plate"><span class="plate
     </div>
   </section>
 
-${section("problems-title", problems.heading, textList(problems.items, "topics"))}
+${section("problems-title", problems.heading, problemsBody(problems), "block-wide")}
 
 ${section(
   "services-title",
@@ -357,20 +433,7 @@ ${section("reviews-title", testimonials.heading, testimonialsBody(testimonials))
 
 ${section("activities-title", activities.heading, activitiesBody(activities), "block-wide block-tint")}
 
-${section(
-  "faq-title",
-  faq.heading,
-  `<dl class="faq">
-${faq.items
-  .map(
-    (it) => `        <div class="faq-item">
-          <dt>${esc(it.q)}</dt>
-          <dd>${esc(it.a)}</dd>
-        </div>`
-  )
-  .join("\n")}
-      </dl>`
-)}
+${section("faq-title", faq.heading, faqBody(site, faq), "block-wide")}
 
   <section class="block contact" id="lien-he" aria-labelledby="contact-title">
     <div class="wrap reveal">
@@ -380,6 +443,7 @@ ${faq.items
           <p class="contact-lead">${esc(contact.lead)}</p>
           ${callLink(site, esc(site.hotlineDisplay), "big-phone")}
           ${ctaPair(site)}
+          ${zaloGroupLink(site, `${chatIcon}<span>${esc(site.zaloGroupLabel)}</span>`, "btn btn-map btn-group")}
           <div class="contact-place">
             <p><span class="label">Địa điểm liên hệ:</span> ${esc(site.contactAddress)}.</p>
             ${mapsLink(site, `${mapIcon}<span>${esc(site.mapsLabel)}</span>`, "btn btn-map")}
@@ -396,8 +460,14 @@ ${faq.items
     <p class="footer-name">${esc(site.officeName)}</p>
     <p>Địa điểm liên hệ: ${esc(site.contactAddress)}. ${mapsLink(site, "Google Maps", "footer-link")}</p>
     <p>Hotline: ${callLink(site, esc(site.hotlineDisplay), "footer-link")} · Zalo: ${zaloLink(site, esc(site.hotlineDisplay), "footer-link")}</p>
+    <p>${zaloGroupLink(site, esc(site.zaloGroupLabel), "footer-link")}</p>
   </div>
 </footer>
+
+<dialog class="lightbox" aria-label="Xem ảnh lớn">
+  <form method="dialog"><button class="lightbox-close" aria-label="Đóng ảnh">×</button></form>
+  <figure><img alt=""><figcaption></figcaption></figure>
+</dialog>
 
 <div class="call-bar">
   ${callLink(site, `${phoneIcon}<span>${esc(site.stickyCallLabel)}</span>`, "bar-btn bar-call")}

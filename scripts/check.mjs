@@ -14,13 +14,16 @@ test("có đúng một H1", () => {
   assert.equal((html.match(/<h1[\s>]/g) || []).length, 1);
 });
 
-test("mọi liên kết gọi là tel:0978639199, mọi liên kết Zalo là zalo.me/0978639199", () => {
+test("mọi liên kết gọi là tel:0978639199; Zalo chỉ gồm số văn phòng và nhóm học viên", () => {
   const tels = [...html.matchAll(/href="(tel:[^"]*)"/g)].map((m) => m[1]);
   assert.ok(tels.length >= 5, `chỉ thấy ${tels.length} liên kết gọi`);
   for (const t of tels) assert.equal(t, "tel:0978639199");
   const zalos = [...html.matchAll(/href="([^"]*zalo[^"]*)"/gi)].map((m) => m[1]);
-  assert.ok(zalos.length >= 3, `chỉ thấy ${zalos.length} liên kết Zalo`);
-  for (const z of zalos) assert.equal(z, "https://zalo.me/0978639199");
+  const personal = zalos.filter((z) => z === "https://zalo.me/0978639199").length;
+  const group = zalos.filter((z) => z === "https://zalo.me/g/ftqdhz976").length;
+  assert.ok(personal >= 3, `chỉ thấy ${personal} liên kết Zalo văn phòng`);
+  assert.ok(group >= 2, `chỉ thấy ${group} liên kết nhóm Zalo học viên`);
+  assert.equal(personal + group, zalos.length, "có liên kết Zalo lạ");
 });
 
 test("có lang=vi, title và meta description đúng", () => {
@@ -40,18 +43,64 @@ test("có semantic landmarks", () => {
 
 test("đủ 9 phần theo cấu trúc trong CLAUDE.md", () => {
   assert.ok(html.includes('id="hero-title"'), "thiếu Hero");
-  assert.equal((section("problems-title").match(/<li>/g) || []).length, 3, "Vấn đề cần 3 mục");
+  const problems = section("problems-title");
+  assert.equal((problems.match(/class="concern"/g) || []).length, 3, "Vấn đề cần 3 mục");
+  assert.equal((problems.match(/class="solution"/g) || []).length, 3, "mỗi băn khoăn cần hướng giải quyết");
   assert.equal((section("services-title").match(/class="service"/g) || []).length, 3, "Dịch vụ cần 3 mục");
   assert.equal((section("process-title").match(/<li>/g) || []).length, 4, "Quy trình cần 4 bước");
   assert.ok((section("why-title").match(/<li>/g) || []).length >= 3, "Lý do chọn cần ít nhất 3 mục");
   const reviews = (section("reviews-title").match(/class="review[ "]/g) || []).length;
   assert.ok(reviews >= 2 && reviews <= 4, `Feedback có ${reviews} mục`);
-  const faqCount = (section("faq-title").match(/<dt>/g) || []).length;
+  const faqCount = (section("faq-title").match(/class="faq-item"/g) || []).length;
   assert.ok(faqCount >= 5 && faqCount <= 7, `FAQ có ${faqCount} câu`);
   assert.ok(html.includes('id="lien-he"'), "thiếu CTA cuối");
   const footer = html.split("<footer")[1].split("</footer>")[0];
   assert.ok(footer.includes("Nhà văn hóa thôn 18"), "footer thiếu địa chỉ");
   assert.ok(footer.includes('href="tel:0978639199"'), "footer thiếu hotline");
+});
+
+test("FAQ: accordion có aria-expanded/aria-controls, câu đầu về học phí, nút gọi sau FAQ", () => {
+  const faq = section("faq-title");
+  const toggles = [...faq.matchAll(/<button type="button" class="faq-toggle" id="([^"]+)" aria-expanded="true" aria-controls="([^"]+)">/g)];
+  assert.ok(toggles.length >= 5, "thiếu nút mở/đóng câu hỏi");
+  for (const [, , panel] of toggles) assert.ok(faq.includes(`id="${panel}"`), `thiếu ${panel}`);
+  assert.match(faq.split('class="faq-item"')[1], /Học phí 1\.200\.000đ/, "câu đầu phải là câu học phí");
+  assert.match(faq, /<div class="section-cta"><a class="btn btn-primary" href="tel:0978639199">[\s\S]*Gọi tư vấn học phí và lịch học/);
+  assert.ok(text.includes("học phí từ 1.200.000đ"), "phải giữ “học phí từ 1.200.000đ”");
+});
+
+test("hình ảnh: bấm xem ảnh lớn, video có poster + controls, không autoplay", () => {
+  const gallery = section("gallery-title");
+  assert.match(gallery, /Hình ảnh thực tế tại Vạn Xuân/);
+  const imgs = (gallery.match(/<img /g) || []).length;
+  assert.equal((gallery.match(/<a class="zoom" href=/g) || []).length, imgs, "mỗi ảnh cần link xem lớn");
+  for (const v of html.match(/<video[^>]*>/g) || []) {
+    assert.match(v, /controls/);
+    assert.match(v, /poster="[^"]+"/);
+    assert.ok(!/autoplay/.test(v), "video không được autoplay");
+  }
+  assert.ok(!/Video \(\d\)|Video sân tập \(\d\)/.test(html), "còn chú thích video chung chung");
+  assert.ok(html.includes('<dialog class="lightbox"'), "thiếu khung xem ảnh lớn");
+});
+
+test("chữ thường đạt tương phản tối thiểu 4.5:1", () => {
+  const css = html.match(/<style>([\s\S]*?)<\/style>/)[1];
+  const token = (name) => css.match(new RegExp(`--${name}:\\s*(#[0-9a-f]{6})`, "i"))[1];
+  const lum = (hex) => {
+    const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+      .map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  const ratio = (a, b) => {
+    const [l1, l2] = [lum(a), lum(b)].sort((x, y) => y - x);
+    return (l1 + 0.05) / (l2 + 0.05);
+  };
+  for (const fg of ["ink", "text-2", "muted", "sign"]) {
+    for (const bg of ["paper", "tint", "sign-soft"]) {
+      const r = ratio(token(fg), token(bg));
+      assert.ok(r >= 4.5, `--${fg} trên --${bg} chỉ đạt ${r.toFixed(2)}:1`);
+    }
+  }
 });
 
 test("không có nội dung cấm hoặc chưa xác minh", () => {
