@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.vercel/
+
+# Ảnh/video gốc (có ảnh chụp tin nhắn riêng) — không đưa lên repo công khai
+assets-goc/
+
+# Bản so sánh thiết kế, chỉ dùng trên máy
+compare/

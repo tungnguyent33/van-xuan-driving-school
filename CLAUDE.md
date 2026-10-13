@@ -1,179 +1,220 @@
-# CLAUDE.md
+# Dự án: Landing page Văn phòng đào tạo lái xe Vạn Xuân
 
-Hướng dẫn cho Claude Code khi làm việc trên dự án này.
+## Mục tiêu
+Xây dựng và bảo trì một landing page một trang, tối giản, chuyên nghiệp,
+tối ưu cho điện thoại và tập trung vào một hành động chính:
+khách liên hệ hotline/Zalo để được tư vấn học phí và lịch học.
 
-## Tổng quan dự án
+## Thương hiệu
+- Tên hiển thị: Văn phòng đào tạo lái xe Vạn Xuân
+- Khu vực: Vạn Xuân, Phú Thọ
+- Giọng văn: gần gũi, rõ ràng, đáng tin, không phô trương
+- Ưu tiên thiết kế: sạch, dễ đọc, đáng tin cậy, mobile-first
+- Màu sắc (đang dùng trong `src/styles.css`):
+  - Màu chính / CTA: xanh biển chỉ dẫn `#0a4da2` (hover `#073a7d`)
+  - Màu chữ: `#141a22`, chữ phụ `#4a5361`, đường kẻ `#dce1e7`, nền `#ffffff`
+  - Màu nhấn: vàng vạch kẻ đường `#f2b705` (chỉ dùng cho viền focus và vạch đứt sau hero)
+- Font: Barlow Condensed (tiêu đề, số) + Barlow (nội dung), tải từ Google Fonts
 
-Website giới thiệu **Trung tâm đào tạo lái xe Phú Thọ** — chi nhánh **Vạn Xuân**.
-Mục tiêu: website giới thiệu dịch vụ, xây dựng uy tín, tối giản — hiện đại — chuyên nghiệp,
-giúp học viên tiềm năng hiểu nhanh về trung tâm, các khóa đào tạo và đăng ký học nhanh chóng.
+## Thông tin liên hệ bắt buộc
+- Hotline: 0978 639 199
+- Zalo: 0978 639 199
+- Địa chỉ: Nhà văn hóa thôn 18, Thôn 18, xã Vạn Xuân, Phú Thọ
+- Khu vực phục vụ chính: Vạn Xuân và các khu vực lân cận tại Phú Thọ
+- Google Maps: https://maps.app.goo.gl/WUqzWExNqY2sK7aD6 (chủ văn phòng cung cấp 2026-10-13).
+  Chỉ đặt nút/link mở bản đồ (hero, khối liên hệ, footer); không nhúng iframe.
+  Tên địa điểm trên Google Maps là “Trung tâm đào tạo lái xe mô tô Phú Thọ - Chi nhánh Vạn Xuân”
+  — không hiển thị tên này trên trang khi chủ văn phòng chưa đồng ý.
 
-**Sitemap đầy đủ:**
-- `/` — Trang chủ
-- `/gioi-thieu` — Giới thiệu trung tâm (giới thiệu chung + chi nhánh Vạn Xuân)
-- `/khoa-hoc` — Danh sách khóa học / dịch vụ đào tạo
-  - `/khoa-hoc/hang-a1` — Chi tiết: Bằng A1 (xe máy)
-  - `/khoa-hoc/hang-a` — Chi tiết: Bằng A (xe máy phân khối lớn)
-  - `/khoa-hoc/cap-doi-cap-lai` — Chi tiết: Cấp đổi / cấp lại bằng lái
-  - `/khoa-hoc/[hang-khac]` — Mở rộng: B1, B2, C... khi triển khai thêm
-- `/lich-khai-giang` — Lịch khai giảng & lịch thi
-- `/dang-ky` — Form đăng ký học / đăng ký tư vấn
-- `/tin-tuc` — Tin tức / Blog / Mẹo thi
-  - `/tin-tuc/[slug]` — Chi tiết bài viết
-- `/faq` — Câu hỏi thường gặp
-- `/lien-he` — Liên hệ & bản đồ chi nhánh
+## Dịch vụ ưu tiên
+- Đào tạo lái xe máy hạng A và A1
+- Học phí khởi điểm: từ 1.200.000đ
+- Đối tượng: học sinh, sinh viên, người lao động chưa có bằng xe máy
+- Lợi ích cần nhấn:
+  - Hướng dẫn viên uy tín, tận tâm
+  - Cam kết không phát sinh chi phí ngoài thỏa thuận
+  - Tỷ lệ đỗ cao
+  - Hỗ trợ tư vấn thủ tục và lịch học
 
-> Wireframe chi tiết từng trang: xem [docs/sitemap-wireframe.md](docs/sitemap-wireframe.md) —
-> tài liệu tham chiếu chính khi sinh code cho từng trang, đảm bảo đúng cấu trúc và mục tiêu
-> chuyển đổi (mỗi trang có CTA, thứ tự block, v.v.).
+## Hành động chính
+CTA chính: “Gọi tư vấn học phí và lịch học”
+- Nút gọi: tel:0978639199
+- Nút Zalo: liên kết Zalo số 0978 639 199
+- CTA phải xuất hiện ở hero, sau phần học phí và ở cuối trang
 
-## Lộ trình triển khai theo giai đoạn
+## Cấu trúc landing page
+1. Hero
+   - Tiêu đề lợi ích chính
+   - Đối tượng phục vụ
+   - Nút Zalo / Gọi ngay
+   - Ảnh hoặc video thật
+2. Vấn đề
+   - 3 khó khăn khách hay gặp
+3. Giải pháp / Dịch vụ
+   - 3 gói hoặc 3 lợi ích rõ ràng
+4. Quy trình
+   - 4 bước đơn giản
+5. Vì sao chọn tôi
+   - Kinh nghiệm, địa chỉ, cam kết, giấy tờ, số liệu
+6. Feedback
+   - 2–4 đánh giá ngắn, có tên và hình nếu được
+7. FAQ
+   - 5–7 câu hỏi về giá, thời gian, thủ tục, bảo hành
+8. CTA cuối
+   - Nhắn Zalo ngay / Để lại số điện thoại
+9. Footer
+   - Thông tin liên hệ, địa chỉ, chính sách
 
-- **Giai đoạn 1 (MVP):** ✅ Hoàn thành — Trang chủ, Giới thiệu, Liên hệ cơ bản.
-- **Giai đoạn 2 (Chuyển đổi):** ✅ Hoàn thành — Khóa học (`/khoa-hoc` + 3 trang chi tiết dùng chung
-  `KhoaHocDetailLayout`), Đăng ký (`/dang-ky` + `RegisterForm` dùng chung), Lịch khai giảng
-  (`/lich-khai-giang` + `ScheduleTable`/`ScheduleFilterTable`), FAQ (`/faq` + `FaqAccordion`).
-- **Giai đoạn 3 (SEO & uy tín):** ✅ Hoàn thành — Tin tức (`/tin-tuc` + `/tin-tuc/[slug]`, dữ liệu mẫu
-  tại `content/tin-tuc.ts` cần thay bằng CMS/nội dung thật), metadata SEO riêng cho mọi trang.
-- **Giai đoạn 4 (Vận hành):** ✅ Hoàn thành khung xử lý — API route `app/api/dang-ky/route.ts`
-  (hiện chỉ validate + console.log, CHƯA nối Google Sheets thật — cần Sheet ID + Apps Script Web
-  App URL), `RegisterForm`/`ContactForm` gọi API qua fetch với trạng thái loading/success/error,
-  tracking `lib/tracking.ts` (console.log + đẩy `window.dataLayer`, sẵn sàng cho GTM/GA4 thật),
-  schema.org JSON-LD (`DrivingSchool` ở layout gốc, `FAQPage` ở `/faq`, dữ liệu tại
-  `data/business-info.ts`).
-
-> Khi hoàn thành một giai đoạn, cập nhật lại tiến độ ở đây trước khi chuyển sang giai đoạn tiếp theo.
-
-## Tech stack
-
-- **Framework:** Next.js (App Router)
-- **Ngôn ngữ:** TypeScript
-- **Styling:** Tailwind CSS
-- **Font:** `next/font` (tối ưu tải font, không dùng CDN ngoài)
-- **Hình ảnh:** `next/image` cho mọi ảnh nội dung (tối ưu tự động)
-- **Deploy dự kiến:** Vercel (hoặc hosting tĩnh nếu build export)
-
-> Nếu chưa khởi tạo project, dùng: `npx create-next-app@latest . --typescript --tailwind --app --eslint`
-
-### Lệnh thường dùng
-
-```bash
-npm run dev      # chạy dev server
-npm run build    # build production
-npm run lint     # kiểm tra lint
-```
-
-## Design guidelines
-
-**Phong cách:** tối giản (minimalist), hiện đại (modern), chuyên nghiệp (professional) —
-theo ảnh tham khảo dạng website ô tô/dealer mà người dùng cung cấp (bố cục header + hero
-banner lớn + nội dung nhiều cột + khối CTA nổi bật + footer icon).
-
-### Bố cục tổng thể (theo ảnh tham khảo)
-
-1. **Header**: logo bên trái + thanh menu ngang (nền xanh dương đậm), menu nằm ngay dưới
-   logo, dàn hàng ngang, rõ ràng, ít mục (Trang chủ, Giới thiệu, Khóa học, Liên hệ...).
-2. **Hero banner**: ảnh lớn full-width (ưu tiên ảnh thật: xe tập lái, học viên, sân tập —
-   không dùng ảnh xe thương mại như bản gốc), tiêu đề lớn đè lên ảnh, có thể kèm 1 dòng
-   mô tả ngắn + nút CTA.
-3. **Nội dung chia cột**: ngay dưới hero, chia 2-3 cột, mỗi cột 1 heading ngắn (màu xanh
-   đậm, đậm nét) + đoạn mô tả ngắn (ví dụ: "Vì sao chọn chúng tôi", "Đội ngũ giáo viên",
-   "Cam kết đầu ra").
-4. **Khối CTA nổi bật**: 1 box tách biệt, nền màu nhạt (xanh nhạt/xám nhạt) tương phản
-   với nền chính, chứa nút bấm màu accent nổi bật (ví dụ "Đăng ký học ngay" / "Tư vấn
-   miễn phí") — nút phải nổi bật rõ ràng, không lẫn vào nền.
-5. **Footer**: dải icon tròn (màu xanh chủ đạo) xếp hàng ngang kèm nhãn ngắn — dùng cho
-   liên kết nhanh (Khóa học, Lịch khai giảng, Liên hệ, Mạng xã hội...), gọn, không rối mắt.
-
-### Bảng màu
-
-- **Primary (chủ đạo):** xanh dương đậm (dùng cho menu, heading, icon) — gợi cảm giác tin
-  cậy, chuyên nghiệp, phù hợp lĩnh vực đào tạo/an toàn giao thông.
-- **Nền:** trắng / xám rất nhạt — giữ cảm giác thoáng, tối giản.
-- **Accent (CTA):** cam hoặc đỏ — chỉ dùng cho nút hành động chính (đăng ký, liên hệ) để
-  tạo tương phản mạnh, dẫn mắt người dùng, không dùng tràn lan.
-- Tránh phối nhiều màu sặc sỡ ngoài 3 nhóm màu trên.
-
-### Typography
-
-- 1 font sans-serif hiện đại (ví dụ Inter, hoặc tương đương qua `next/font`).
-- Heading đậm, màu xanh chủ đạo, tối đa 2-3 cấp độ rõ ràng (H1 hero, H2 section, H3 card).
-- Body text màu xám đậm (không dùng đen tuyệt đối), line-height thoáng, dễ đọc.
-
-### Component
-
-- Button/card bo góc nhẹ, shadow tinh tế (không đổ bóng nặng).
-- Nút CTA chính luôn dùng màu accent (cam/đỏ), nút phụ dùng viền/màu trung tính.
-- Hover state rõ ràng nhưng nhẹ nhàng (transition mượt, không giật).
-- Icon tròn nền xanh (footer, điểm nổi bật) đồng bộ về kích thước.
-
-### Ảnh & Responsive
-
-- Ưu tiên ảnh thực tế (xe tập lái, sân tập, học viên, giáo viên) hơn ảnh stock chung chung,
-  để tăng độ tin cậy — thay thế hoàn toàn kiểu ảnh xe thương mại trong bản tham khảo.
-- Mobile-first: hero banner, menu (chuyển hamburger trên mobile), khối 2-3 cột (stack dọc
-  trên mobile), dải icon footer (wrap gọn) — vì phần lớn người tìm khóa học lái xe tra cứu
-  trên điện thoại.
-
-## Component dùng chung
-
-Đặt trong `components/`, đặt tên PascalCase, mỗi component một file:
-
-| Component | Dùng ở trang | Ghi chú |
+### Trạng thái từng phần (cập nhật 2026-10-13)
+| Phần | Trạng thái | Còn thiếu |
 |---|---|---|
-| `Header` | Tất cả | Menu ngang + nút CTA phụ nổi bật |
-| `Footer` | Tất cả | Dải icon tròn + liên kết nhanh |
-| `Hero` | Trang chủ, mọi trang con (biến thể nhỏ) | Prop: ảnh, H1, sub, CTA |
-| `Section` | Tất cả | Wrapper layout chuẩn khoảng cách |
-| `Card` | Khóa học, tin tức, review | Bo góc nhẹ, shadow tinh tế |
-| `Button` | Tất cả | Variant `primary` (accent) và `secondary` (viền) |
-| `CTASection` | Trang chủ, chi tiết khóa học, tin tức, FAQ | Box nền nhạt, luôn có 1 nút accent |
-| `StatBlock` | Trang chủ | Số liệu niềm tin (số năm hoạt động, học viên, tỉ lệ đỗ...) |
-| `ScheduleTable` | Trang chủ, lịch khai giảng, chi tiết khóa học | Bảng lịch khai giảng; cột "Còn slot" tự highlight màu accent khi số chỗ ≤ `LOW_SLOTS_THRESHOLD` (xem `lib/schedule.ts`) |
-| `RegisterForm` | `/dang-ky`, `/lien-he`, chi tiết khóa học | `"use client"`, preset hạng bằng qua query param |
-| `FaqAccordion` | Trang chủ (rút gọn), `/faq`, chi tiết khóa học | `"use client"` — tương tác mở/đóng |
-| `Breadcrumb` | Chi tiết khóa học, chi tiết tin tức | Điều hướng ngữ cảnh |
-| `ReviewCarousel` | Trang chủ (khối "Đánh giá học viên") | `"use client"`, carousel cuộn ngang (scroll-snap, không dùng thư viện ngoài); mỗi đánh giá có `imageSrc` tùy chọn — chưa có ảnh thì tự hiển thị avatar placeholder |
+| 1. Hero | Ảnh nền thật (sân tập có vạch sa hình), tiêu đề, đối tượng, học phí, nút Gọi + Zalo | — |
+| 2. Vấn đề | Chưa có bằng, chưa rõ thủ tục, lo chi phí không rõ ràng | — |
+| 3. Giải pháp / Dịch vụ | Hạng A1, Hạng A, Tư vấn thủ tục và lịch học + khối học phí và CTA | Nội dung chi tiết từng gói (nếu có) |
+| 4. Quy trình | Tư vấn → Hoàn thiện hồ sơ → Học → Thi | — |
+| 5. Vì sao chọn tôi | Hướng dẫn viên tận tâm, không phát sinh chi phí ngoài thỏa thuận, tỷ lệ đỗ cao, địa điểm | Số năm hoạt động, số học viên, giấy tờ (nếu có thật) |
+| 6. Feedback | 3 đánh giá Google Maps (4,8/5 · 9 đánh giá, số liệu ngày 2026-10-13) | Cập nhật số đánh giá định kỳ; ảnh chat Messenger chưa đăng (cần học viên đồng ý) |
+| 7. FAQ | 5 câu | Không thêm câu “bảo hành” (không phù hợp khóa học lái xe) |
+| 8. CTA cuối | Số hotline, nút Gọi + Zalo, form để lại thông tin | Link Google Form (`site.leadForm.action` + mã `entry.*`) |
+| 9. Footer | Tên, địa điểm liên hệ, hotline, Zalo | Trang/chính sách (chưa có nội dung) |
 
-## Quy tắc chuyển đổi (Conversion rules)
+Quyết định của chủ văn phòng (2026-10-13): số 0978 639 199 có Zalo; đưa cả hai
+cam kết “không phát sinh chi phí ngoài thỏa thuận” và “tỷ lệ đỗ cao” (không kèm %);
+form gửi về Google Sheets qua Google Form; hiện khung chờ ảnh/đánh giá.
+Không tự tạo nội dung cho các phần còn thiếu dữ liệu (đánh giá, số liệu,
+ảnh, chính sách). Khung chờ phải được thay bằng dữ liệu thật trước khi công bố.
 
-- Mỗi trang **phải** có tối thiểu 1 CTA chính dẫn tới `/dang-ky` hoặc hotline/Zalo.
-- Trang chủ: hero + CTA chính phải nằm trong màn hình đầu (above the fold) trên mobile.
-- Trang chi tiết khóa học: CTA nên sticky trên mobile, có form đăng ký rút gọn ngay trong trang.
-- Form đăng ký (`/dang-ky`) chỉ bắt buộc 2 trường: **Họ tên**, **Số điện thoại** — các trường
-  khác optional.
-- Không hard-code học phí/lịch khai giảng thật khi chưa được cung cấp — dùng placeholder rõ ràng.
-- Ngoại lệ có chủ đích: cột "Còn slot" ở `ScheduleTable`/`ScheduleFilterTable` (trang chủ và
-  `/lich-khai-giang`) hiển thị số ngẫu nhiên 1-20 qua `lib/schedule.ts` (`randomSlots()`) — đây là
-  yêu cầu minh họa giao diện của người dùng, KHÔNG phải lỗi cần sửa thành placeholder. Ngày khai
-  giảng vẫn giữ `(Đang cập nhật)` cho tới khi có lịch thật.
+### Kết nối Google Form
+1. Tạo Google Form với 4 câu hỏi: Họ và tên, Số điện thoại, Hạng muốn học, Ghi chú.
+   Liên kết form với Google Sheets (tab Câu trả lời > biểu tượng Sheets).
+2. Mở bản xem trước của form, xem nguồn trang, tìm `formResponse` để lấy URL
+   dạng `https://docs.google.com/forms/d/e/<ID>/formResponse`, và các mã
+   `entry.<số>` của từng câu hỏi.
+3. Điền vào `site.leadForm.action` và `site.leadForm.entries` trong `src/content.mjs`.
+4. Câu “Hạng muốn học” trong Google Form phải có đúng các lựa chọn trong
+   `site.leadForm.licenseOptions` (hoặc dùng câu trả lời ngắn).
+Form gửi bằng `fetch` chế độ `no-cors` nên trang không đọc được phản hồi của
+Google; kiểm tra Google Sheets sau lần gửi thử đầu tiên.
 
-## Thông tin nghiệp vụ (cần điền)
+## Quy tắc nội dung
+- Chỉ dùng thông tin có trong file này hoặc do người dùng cung cấp trực tiếp.
+- Không tự bịa: tỷ lệ đỗ cụ thể, số học viên, chứng nhận, ngày khai giảng,
+  lịch thi, giá trọn gói, chính sách hoàn học phí.
+- Với “tỷ lệ đỗ cao”, không tự tạo phần trăm.
+- Với “học phí từ 1.200.000đ”, không viết thành “trọn gói” hoặc “bao hết”
+  trừ khi người dùng xác nhận.
+- Nếu thiếu dữ liệu, dùng “Liên hệ 0978 639 199 để biết chi tiết”.
 
-> Điền các thông tin thật của trung tâm vào đây để nội dung website chính xác, tránh bịa
-> thông tin (địa chỉ, SĐT, học phí...) khi chưa được cung cấp.
+## Thiết kế
+- Ưu tiên mobile trước, sau đó mới desktop.
+- Font dễ đọc, cỡ chữ lớn, khoảng cách thoáng.
+- Nút CTA lớn, màu tương phản, luôn dễ bấm.
+- Ít animation; chỉ dùng hiệu ứng nhẹ, không làm chậm trang.
+- Chuyển động hiện có (CSS thuần + IntersectionObserver, không thư viện;
+  token `--ease-out`, `--dur-enter`, `--stagger`… ở cuối `src/styles.css`):
+  - Hero: một chuỗi xuất hiện khi tải trang, biển hạng “dựng” lên, vạch vàng được kẻ từ trái sang.
+  - Các phần bên dưới: hiện dần khi cuộn tới (`.reveal` → `.is-in`), mục danh sách so le 60ms,
+    đường nối các bước quy trình chạy xuống.
+  - Thanh Gọi/Zalo trên mobile chỉ trượt lên khi nút trong hero đã cuộn khuất.
+  - Nút lún nhẹ khi bấm; nút gửi form có vòng xoay; thông báo form hiện mờ dần.
+  - Quy tắc: chỉ animate transform/opacity; mọi hiệu ứng nằm trong
+    `prefers-reduced-motion: no-preference`; trạng thái ẩn chỉ áp dụng dưới `html.js`
+    để trang vẫn hiển thị đủ khi không có JavaScript. Không thêm hiệu ứng lặp vô hạn
+    (trừ vòng xoay khi đang gửi).
+- Không dùng ảnh stock rẻ tiền; ưu tiên ảnh thật hoặc placeholder rõ ràng.
+- Không thêm menu nhiều cấp, blog, tin tức, popup hoặc chức năng thừa.
 
-- Tên đầy đủ: Trung tâm đào tạo lái xe Phú Thọ
-- Chi nhánh: Vạn Xuân — địa chỉ: _(chưa có)_
-- Hotline / SĐT liên hệ: `0823279999` — đã điền tại `data/contact.ts` (hiển thị qua `HotlineLink`)
-- Link Zalo: `https://zalo.me/0823279999` — đã điền tại `data/contact.ts` (hiển thị qua `ZaloLink`)
-- Email: _(chưa có)_
-- Các hạng bằng lái đào tạo: _(chưa có)_
-- Giờ làm việc: _(chưa có)_
-- Học phí từng hạng (A1, A, cấp đổi/cấp lại): _(chưa có)_
-- Lịch khai giảng gần nhất: _(chưa có)_
-- Hồ sơ cần chuẩn bị theo từng hạng: _(chưa có)_
-- Số năm hoạt động / số học viên / tỉ lệ đỗ (dùng cho `StatBlock`): đã điền tại `app/page.tsx`
-  (`Từ 2023` · `Hơn 500+ học viên` · `Trên 90% tỉ lệ đỗ`) — xác nhận lại nếu số liệu thay đổi
-- Địa chỉ Google Maps chi nhánh Vạn Xuân: _(chưa có)_
+## Trang web tham khảo
+Chỉ tham khảo **cách bố cục và cách dẫn khách tới hành động**. Không sao chép
+nội dung, hình ảnh, logo, số liệu hay lời cam kết của các trang này.
+(Phân tích ngày 2026-10-13, cấu trúc có thể đã thay đổi.)
 
-## Quy ước code
+| Trang | Kiểu trang | Nên học | Không áp dụng cho Vạn Xuân |
+|---|---|---|---|
+| [bkacad.edu.vn](https://bkacad.edu.vn/) | Website trường nhiều trang | Footer liệt kê rõ từng cơ sở kèm địa chỉ + hotline; chia rõ 2 nhóm khách (người đi làm / học sinh); khối 2 nút CTA đặt cạnh nhau | Hero là slideshow ảnh không có tiêu đề/CTA; nhiều tin tức, việc làm; hotline chỉ ở footer; không có form |
+| [aten.edu.vn/landing-page-1](https://aten.edu.vn/landing-page-1/) | Landing page một trang | Hero dạng chữ, căn trái, 1 CTA chính + 1 CTA phụ; thẻ “bạn là ai” theo đối tượng; phần giáo viên có ảnh thật + tên + bằng cấp; 3 đánh giá có ảnh tròn, tên, nghề nghiệp; nút “Gọi ngay” ở header | Ưu đãi giới hạn số suất, giảm giá gạch ngang, “100.000+ học viên”, cam kết đầu ra — chỉ dùng khi có dữ liệu thật |
+| [ece.edu.vn](https://ece.edu.vn/) | Website trung tâm, trang chủ dài | Danh sách “nỗi lo” của khách + CTA dẫn tới form; tab khóa học nêu rõ thời lượng, sĩ số, học phí; form ngắn (tên, SĐT) lặp lại ở vài chỗ kèm dòng “sẽ liên hệ lại”; nút Zalo/Messenger/hotline cố định trên mobile; nút “Tư vấn” ở header nhảy tới form | Banner carousel, blog, tuyển dụng, đăng nhập, đổi ngôn ngữ — thừa với landing page một trang |
 
-- Component đặt trong `components/`, đặt tên PascalCase, mỗi component một file.
-- Trang đặt theo cấu trúc App Router trong `app/` (ví dụ `app/gioi-thieu/page.tsx`).
-- Ưu tiên Server Components; chỉ dùng `"use client"` khi thực sự cần tương tác (form, state).
-- Text tiếng Việt: viết có dấu, chuẩn chính tả; URL slug không dấu (ví dụ `/gioi-thieu`,
-  không phải `/giới-thiệu`).
-- Không hard-code thông tin liên hệ/học phí chưa được xác nhận — dùng placeholder rõ ràng
-  hoặc hỏi lại người dùng.
-- Giữ component nhỏ, tái sử dụng được (ví dụ `Section`, `Card`, `Button`, `Header`, `Footer`).
+### Áp dụng cho Vạn Xuân (theo thứ tự ưu tiên)
+1. **Đã có:** hero chữ + 1 CTA chính (Gọi) + 1 CTA phụ (Zalo); danh sách băn khoăn; form ngắn
+   có dòng mục đích; thanh Gọi/Zalo cố định trên mobile; footer có địa chỉ + hotline.
+2. **Có thể thêm khi có dữ liệu thật:**
+   - Thẻ đối tượng (học sinh, sinh viên, người lao động) như Aten — dữ liệu đã có, làm được ngay.
+   - Nút “Tư vấn” nhỏ ở header nhảy tới `#lien-he` như ECE.
+   - Bảng khóa học A1 / A nêu thời lượng, lịch, học phí từng hạng như ECE — **cần chủ văn phòng
+     cung cấp**; hiện không được gán 1.200.000đ riêng cho từng hạng.
+   - Hướng dẫn viên có ảnh, tên, kinh nghiệm như Aten — cần ảnh và thông tin thật.
+   - Đánh giá có ảnh tròn, tên, nghề nghiệp như Aten — thay khung chờ hiện tại.
+3. **Không làm:** carousel/slideshow, đếm ngược, popup, “chỉ còn N suất”, giảm giá gạch ngang,
+   số học viên/tỷ lệ % chưa xác minh, blog/tin tức/tuyển dụng.
+
+### Kết hợp với plugin thiết kế đã cài
+- `/frontend-design:frontend-design`: dùng khi cần **định hướng hình ảnh riêng** (màu, chữ,
+  điểm nhấn), tránh giao diện “mẫu chung”. Ngôn ngữ biển báo giao thông hiện tại là kết quả
+  của plugin này — giữ nguyên khi thêm phần mới lấy cảm hứng từ các trang trên
+  (học cấu trúc của họ, không học giao diện của họ).
+- `/ui-ux-pro-max:ui-ux-pro-max`: dùng để **kiểm tra chất lượng**: form, chạm, tương phản,
+  hiệu ứng, bố cục mobile. Công cụ tìm kiếm của plugin cần Python (máy hiện chưa cài);
+  khi chưa có Python thì đọc trực tiếp `references/quick-reference.md` và các file CSV trong
+  thư mục `data/` của plugin.
+- Quy trình gợi ý khi thêm một phần mới:
+  1. Chọn mẫu bố cục từ bảng trên.
+  2. Kiểm tra dữ liệu thật có đủ chưa (theo “Quy tắc nội dung”); thiếu thì hỏi chủ văn phòng.
+  3. Dựng theo hệ màu/chữ hiện có (frontend-design).
+  4. Rà theo checklist của ui-ux-pro-max, rồi chạy `npm test` và kiểm tra 360/390/768px.
+
+## Kỹ thuật
+- Ưu tiên HTML, CSS, JavaScript thuần trừ khi dự án hiện tại dùng framework khác.
+- Giữ mã nguồn gọn, dễ bảo trì.
+- Ảnh cần nén và dùng định dạng WebP khi có thể.
+- Không thêm thư viện lớn nếu không cần thiết.
+- Kiểm tra hiển thị trên màn hình nhỏ trước khi hoàn thành.
+
+### Ảnh và video
+- Ảnh/video **gốc** do chủ văn phòng gửi: `assets-goc/` (không deploy, giữ nguyên tên thư mục:
+  Background, Feedback, Hoạt động trong tháng - carosel, Logo, Phòng học, Sân tập).
+- Bản **nén** dùng trên trang: `public/images/` (build chép sang `dist/images/`).
+  Ảnh dọc 720px, ảnh ngang 1080–1280px, JPEG chất lượng ~72; ảnh nền hero 1920px +
+  bản cắt riêng cho điện thoại `hero-mobile.jpg`.
+- Không đặt file trực tiếp vào `dist/` (thư mục build). Thêm ảnh mới: bỏ ảnh gốc vào
+  `assets-goc/`, tạo bản nén vào `public/images/`, khai báo trong `src/content.mjs`.
+- Video (quay dọc 480×854) không tự phát, `preload="metadata"`.
+- Đã có ảnh thật nên được dùng cụm “sân tập” (chủ văn phòng gửi ảnh/video thư mục “Sân tập”).
+  Vẫn không gọi là “trung tâm sát hạch”. Ảnh có người: chủ văn phòng chịu trách nhiệm xin phép.
+- Đánh giá Google Maps: giữ nguyên lời nhận xét (kể cả lỗi chính tả), chỉ chỉnh khoảng trắng/viết hoa.
+  Không đăng ảnh chụp màn hình Google Maps (tiêu đề trên đó ghi “Trung tâm…”).
+
+### Cấu trúc mã nguồn hiện tại
+- HTML/CSS tĩnh, không dependency, build bằng Node (>= 20).
+- `src/content.mjs`: toàn bộ dữ liệu có thể thay đổi (tên, hotline, địa chỉ,
+  học phí, FAQ, SEO). Sửa nội dung ở đây, không hard-code ở nơi khác.
+- `src/render.mjs`: khung HTML của trang và script duy nhất (kiểm tra + gửi form).
+- `src/styles.css`: giao diện (được nhúng inline vào HTML khi build).
+- `scripts/build.mjs`: xuất `dist/index.html`, chép `public/` (ảnh thật) sang `dist/`.
+- `scripts/check.mjs`: kiểm tra nội dung (1 H1, mọi CTA đúng `tel:0978639199`,
+  không có cụm từ cấm, chỉ một số điện thoại, đủ số mục của Vấn đề / Quy trình / FAQ,
+  footer có địa điểm và hotline).
+- `compare/`: bản trước/sau thiết kế để so sánh, có thể xóa khi không cần.
+- `scripts/serve.mjs`: máy chủ xem trước, phục vụ mọi file trong `dist/` (có Range cho video).
+
+### Lệnh
+- `npm run build`: build ra `dist/index.html`
+- `npm test`: build rồi chạy kiểm tra nội dung
+- `npm run preview`: build và chạy http://localhost:4173
+
+## Triển khai
+- Môi trường demo hiện tại: van-xuan-driving-school.vercel.app
+- Repository: tungnguyent33/van-xuan-driving-school
+- Khi yêu cầu “cập nhật demo”, hãy build nếu cần và triển khai lên nền tảng hiện có.
+- Repo chỉ chứa mã nguồn (src/, scripts/, public/, vercel.json…). Vercel tự build khi có commit
+  mới trên nhánh main theo `vercel.json` (`npm run build` → `dist`).
+- 2026-10-13: thay phiên bản Next.js cũ bằng landing page tĩnh này (commit mới, không force push;
+  bản cũ vẫn còn trong lịch sử git). Đường dẫn cũ được chuyển hướng trong `vercel.json`.
+- Không đưa `assets-goc/` (có ảnh chụp tin nhắn riêng) và `compare/` lên repo công khai.
+- Không thay đổi tên miền, cấu hình DNS hoặc xóa bản deploy khi chưa được yêu cầu.
+
+## Khi nhận yêu cầu mới
+1. Đọc cấu trúc dự án hiện tại.
+2. Không phá vỡ nội dung, hotline, địa chỉ và CTA hiện có.
+3. Nếu thiếu thông tin quan trọng, hỏi ngắn gọn trước khi triển khai.
+4. Sau khi sửa, kiểm tra mobile, tốc độ, liên hệ và nội dung sai lệch.

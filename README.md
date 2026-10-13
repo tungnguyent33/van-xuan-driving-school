@@ -1,36 +1,24 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Văn phòng đào tạo lái xe Vạn Xuân
 
-## Getting Started
+Landing page tuyển sinh lái xe máy hạng A1, A tại Vạn Xuân, Phú Thọ.
+HTML/CSS/JavaScript thuần, không dependency, build bằng Node (>= 20).
 
-First, run the development server:
+## Lệnh
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- `npm run build`: xuất trang ra `dist/`
+- `npm test`: build rồi kiểm tra nội dung (CTA, cấu trúc, cụm từ cấm, form, link)
+- `npm run preview`: build và chạy http://localhost:4173
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Sửa nội dung
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Chữ, hotline, Zalo, Google Maps, học phí, FAQ, đánh giá, ảnh: `src/content.mjs`
+- Khung trang: `src/render.mjs`
+- Giao diện và hiệu ứng: `src/styles.css`
+- Ảnh đã nén: `public/images/`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Hướng dẫn chi tiết và quy tắc nội dung: xem `CLAUDE.md`.
 
-## Learn More
+## Triển khai
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Vercel build theo `vercel.json` (`npm run build`, thư mục `dist`).
+Các đường dẫn của phiên bản cũ (`/khoa-hoc`, `/lien-he`, `/dang-ky`…) được chuyển hướng về trang chính.

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "redirects": [
+    { "source": "/dang-ky", "destination": "/#lien-he", "permanent": false },
+    { "source": "/lien-he", "destination": "/#lien-he", "permanent": false },
+    { "source": "/khoa-hoc", "destination": "/", "permanent": false },
+    { "source": "/khoa-hoc/:path*", "destination": "/", "permanent": false },
+    { "source": "/faq", "destination": "/", "permanent": false },
+    { "source": "/gioi-thieu", "destination": "/", "permanent": false },
+    { "source": "/lich-khai-giang", "destination": "/", "permanent": false },
+    { "source": "/tin-tuc", "destination": "/", "permanent": false },
+    { "source": "/tin-tuc/:path*", "destination": "/", "permanent": false }
+  ],
+  "headers": [
+    {
+      "source": "/images/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }]
+    }
+  ]
+}
